@@ -3,6 +3,7 @@ package sg.edu.rp.c346.id22005564.song;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 String yearString = editDate.getText().toString().trim();
 
                 if (title.isEmpty() || singers.isEmpty() || yearString.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Enter all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 int stars = getSelectedStars();
 
                 dbHelper.insertSong(title, singers, year, stars);
-                Toast.makeText(MainActivity.this, "Song inserted successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Song inserted", Toast.LENGTH_SHORT).show();
 
                 clearFields();
             }
@@ -67,9 +68,8 @@ public class MainActivity extends AppCompatActivity {
         showListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Song> songList = dbHelper.getAllSongs();
-                adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, songList);
-                listView.setAdapter(adapter);
+                Intent intent = new Intent(MainActivity.this, SongListActivity.class);
+                startActivity(intent);
             }
         });
     }
