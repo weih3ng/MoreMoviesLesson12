@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VER = 1;
+    private static final int DATABASE_VER = 2;
     private static final String DATABASE_NAME = "song.db";
     private static final String TABLE_SONG = "song";
     private static final String COLUMN_ID = "_id";
