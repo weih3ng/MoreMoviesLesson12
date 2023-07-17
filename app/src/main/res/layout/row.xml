@@ -8,10 +8,19 @@
 
     <TextView
         android:id="@+id/songTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Song Title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#030FF4"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#030FF4" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,19 +32,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:text="Year:" />
+            android:text="Year:"
+            android:textColor="#F40303" />
 
         <TextView
             android:id="@+id/songRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:text="Rating:" />
+            android:text="Rating:"
+            android:textColor="#F40303" />
+
     </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="5"
+        android:background="#000000" />
 
     <TextView
         android:id="@+id/songSinger"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Singer:" />
+        android:text="Singer:"
+        android:textColor="#DA00FF"
+        android:textAlignment="center"/>
 </LinearLayout>

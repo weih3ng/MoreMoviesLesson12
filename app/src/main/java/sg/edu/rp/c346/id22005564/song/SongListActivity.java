@@ -28,12 +28,14 @@ public class SongListActivity extends AppCompatActivity {
 
         dbHelper = new DBHelper(this);
 
-        listView = findViewById(R.id.listView);
+        listView = findViewById(R.id.list);
         yearSpinner = findViewById(R.id.yearSpinner);
         fiveStarsButton = findViewById(R.id.fiveStarsButton);
 
         ArrayList<Song> songList = dbHelper.getAllSongs();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, songList);
+//        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, songList);
+        adapter = new CustomAdapter(this, R.layout.row, songList);
+
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
