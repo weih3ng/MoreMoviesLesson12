@@ -21,7 +21,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
         android:background="#0000FF"
-        android:text="SHOW ALL SONGS WITH 5 STARS" />
+        android:text="SHOW ALL MOVIES THAT ARE PG13" />
 
     <ListView
         android:id="@+id/list"

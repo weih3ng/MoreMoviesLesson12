@@ -51,21 +51,20 @@ public class CustomAdapter extends ArrayAdapter<Movies> {
     }
 
     private int getRatingImageResource(int rating) {
-        switch (rating) {
-            case DBHelper.RATING_G:
-                return R.drawable.rating_g;
-            case DBHelper.RATING_PG:
-                return R.drawable.rating_pg;
-            case DBHelper.RATING_PG13:
-                return R.drawable.rating_pg13;
-            case DBHelper.RATING_NC16:
-                return R.drawable.rating_nc16;
-            case DBHelper.RATING_M18:
-                return R.drawable.rating_m18;
-            case DBHelper.RATING_R21:
-                return R.drawable.rating_r21;
-            default:
-                return R.drawable.download; // Replace this with your default rating image
+        if (rating == DBHelper.RATING_G) {
+            return R.drawable.rating_g;
+        } else if (rating == DBHelper.RATING_PG) {
+            return R.drawable.rating_pg;
+        } else if (rating == DBHelper.RATING_PG13) {
+            return R.drawable.rating_pg13;
+        } else if (rating == DBHelper.RATING_NC16) {
+            return R.drawable.rating_nc16;
+        } else if (rating == DBHelper.RATING_M18) {
+            return R.drawable.rating_m18;
+        } else if (rating == DBHelper.RATING_R21) {
+            return R.drawable.rating_r21;
+        } else {
+            return R.drawable.download; // Replace this with your default rating image
         }
     }
 }
