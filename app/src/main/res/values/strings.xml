@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Song</string>
+
+        <!-- ... Other resources ... -->
+
+        <string-array name="movie_ratings">
+            <item>G</item>
+            <item>PG</item>
+            <item>PG13</item>
+            <item>NC16</item>
+            <item>M18</item>
+            <item>R21</item>
+        </string-array>
+
+
+
 </resources>

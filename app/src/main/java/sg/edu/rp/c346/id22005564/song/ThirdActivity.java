@@ -5,67 +5,78 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class ThirdActivity extends AppCompatActivity {
 
-    EditText editTitle, editSingers, editYear, editStars;
+    EditText editTitle, editGenre, editYear, editStars;
     Button updateButton, deleteButton;
-    DBHelper dbHelper;
-    Song selectedSong;
+    MovieDBHelper dbHelper;
+    Movies selectedMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
 
-        dbHelper = new DBHelper(this);
+        dbHelper = new MovieDBHelper(this);
 
         editTitle = findViewById(R.id.editTitle);
-        editSingers = findViewById(R.id.editSingers);
+        editGenre = findViewById(R.id.editGenre);
         editYear = findViewById(R.id.editYear);
-        editStars = findViewById(R.id.editStars);
+        Spinner spinnerRating = findViewById(R.id.spinnerRating);
         updateButton = findViewById(R.id.updateButton);
         deleteButton = findViewById(R.id.deleteButton);
 
         Intent intent = getIntent();
-        selectedSong = (Song) intent.getSerializableExtra("song");
+        selectedMovie = (Movies) intent.getSerializableExtra("movie");
 
-        editTitle.setText(selectedSong.getTitle());
-        editSingers.setText(selectedSong.getSingers());
-        editYear.setText(String.valueOf(selectedSong.getYear()));
-        editStars.setText(String.valueOf(selectedSong.getStars()));
+        editTitle.setText(selectedMovie.getTitle());
+        editGenre.setText(selectedMovie.getGenre());
+        editYear.setText(String.valueOf(selectedMovie.getYear()));
+
+        int selectedRating = intent.getIntExtra("rating", 0); // Get the selected rating from the intent extras
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
+                this, R.array.movie_ratings, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRating.setAdapter(spinnerAdapter);
+        spinnerRating.setSelection(selectedRating - 1); // Set the correct rating in the spinner
+        // Rest of your code...
+
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String title = editTitle.getText().toString().trim();
-                String singers = editSingers.getText().toString().trim();
+                String genre = editGenre.getText().toString().trim();
                 int year = Integer.parseInt(editYear.getText().toString().trim());
-                int stars = Integer.parseInt(editStars.getText().toString().trim());
+                int rating = spinnerRating.getSelectedItemPosition() + 1; // +1 because the array index starts from 0
+                selectedMovie.setRating(rating);
 
-                selectedSong.setTitle(title);
-                selectedSong.setSingers(singers);
-                selectedSong.setYear(year);
-                selectedSong.setStars(stars);
+                selectedMovie.setTitle(title);
+                selectedMovie.setGenre(genre);
+                selectedMovie.setYear(year);
+                selectedMovie.setRating(rating);
 
-                dbHelper.updateSong(selectedSong);
+                dbHelper.updateMovie(selectedMovie);
 
-                Toast.makeText(ThirdActivity.this, "Song updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ThirdActivity.this, "Movie updated", Toast.LENGTH_SHORT).show();
                 finish();
             }
-
         });
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbHelper.deleteSong(selectedSong.getId());
-                Toast.makeText(ThirdActivity.this, "Song deleted", Toast.LENGTH_SHORT).show();
+                dbHelper.deleteMovie(selectedMovie.getId());
+                Toast.makeText(ThirdActivity.this, "Movie deleted", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
     }
 }
+

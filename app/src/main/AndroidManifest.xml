@@ -16,7 +16,7 @@
             android:name=".ThirdActivity"
             android:exported="false" />
         <activity
-            android:name=".SongListActivity"
+            android:name=".MovieListActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

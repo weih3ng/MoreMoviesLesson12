@@ -1,6 +1,8 @@
 package sg.edu.rp.c346.id22005564.song;
 
 
+
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,57 +11,53 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText editSong, editSinger, editDate;
-    RadioButton radioButton, radioButton2, radioButton3, radioButton4, radioButton5;
+    EditText editTitle, editGenre, editYear;
+    Spinner spinner;
     Button insertButton, showListButton;
-    ListView listView;
-    ArrayAdapter<Song> adapter;
-    DBHelper dbHelper;
+    MovieDBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editSong = findViewById(R.id.editSong);
-        editSinger = findViewById(R.id.editSinger);
-        editDate = findViewById(R.id.editDate);
-        radioButton = findViewById(R.id.radioButton);
-        radioButton2 = findViewById(R.id.radioButton2);
-        radioButton3 = findViewById(R.id.radioButton3);
-        radioButton4 = findViewById(R.id.radioButton4);
-        radioButton5 = findViewById(R.id.radioButton5);
+        editTitle = findViewById(R.id.editMovie);
+        editGenre = findViewById(R.id.editGenre);
+        editYear = findViewById(R.id.editDate);
+        spinner = findViewById(R.id.spinner);
+
         insertButton = findViewById(R.id.button);
         showListButton = findViewById(R.id.button2);
-        listView = findViewById(R.id.lv);
 
-        dbHelper = new DBHelper(this);
+        dbHelper = new MovieDBHelper(this);
+
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
+                this, R.array.movie_ratings, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
 
         insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = editSong.getText().toString().trim();
-                String singers = editSinger.getText().toString().trim();
-                String yearString = editDate.getText().toString().trim();
+                String title = editTitle.getText().toString().trim();
+                String genre = editGenre.getText().toString().trim();
+                String yearString = editYear.getText().toString().trim();
 
-                if (title.isEmpty() || singers.isEmpty() || yearString.isEmpty()) {
+                if (title.isEmpty() || genre.isEmpty() || yearString.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Enter all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 int year = Integer.parseInt(yearString);
-                int stars = getSelectedStars();
+                int rating = getSelectedRating();
 
-                dbHelper.insertSong(title, singers, year, stars);
-                Toast.makeText(MainActivity.this, "Song inserted", Toast.LENGTH_SHORT).show();
+                dbHelper.insertMovie(title, genre, year, rating);
+                Toast.makeText(MainActivity.this, "Movie inserted", Toast.LENGTH_SHORT).show();
 
                 clearFields();
             }
@@ -68,37 +66,40 @@ public class MainActivity extends AppCompatActivity {
         showListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SongListActivity.class);
+                Intent intent = new Intent(MainActivity.this, MovieListActivity.class);
                 startActivity(intent);
             }
         });
     }
 
-    private int getSelectedStars() {
-        if (radioButton.isChecked()) {
-            return 1;
-        } else if (radioButton2.isChecked()) {
-            return 2;
-        } else if (radioButton3.isChecked()) {
-            return 3;
-        } else if (radioButton4.isChecked()) {
-            return 4;
-        } else if (radioButton5.isChecked()) {
-            return 5;
-        } else {
-            return 0; // No star selected
+    private int getSelectedRating() {
+        String selectedRatingString = spinner.getSelectedItem().toString();
+        // Convert the selected rating string to the corresponding image resource ID
+        switch (selectedRatingString) {
+            case "G":
+                return R.drawable.rating_g;
+            case "PG":
+                return R.drawable.rating_pg;
+            case "PG13":
+                return R.drawable.rating_pg13;
+            case "NC16":
+                return R.drawable.rating_nc16;
+            case "M18":
+                return R.drawable.rating_m18;
+            case "R21":
+                return R.drawable.rating_r21;
+            default:
+                return 0; // Default image resource if no match is found
         }
     }
 
     private void clearFields() {
-        editSong.setText("");
-        editSinger.setText("");
-        editDate.setText("");
-        radioButton.setChecked(false);
-        radioButton2.setChecked(false);
-        radioButton3.setChecked(false);
-        radioButton4.setChecked(false);
-        radioButton5.setChecked(false);
+        editTitle.setText("");
+        editGenre.setText("");
+        editYear.setText("");
     }
 }
+
+
+
 

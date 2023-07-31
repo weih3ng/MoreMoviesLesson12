@@ -5,23 +5,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
-public class CustomAdapter extends ArrayAdapter<Song> {
+public class CustomAdapter extends ArrayAdapter<Movies> {
 
     private Context context;
     private int resource;
-    private ArrayList<Song> songList;
+    private ArrayList<Movies> movieList;
 
-    public CustomAdapter(Context context, int resource, ArrayList<Song> songList) {
-        super(context, resource, songList);
+    public CustomAdapter(Context context, int resource, ArrayList<Movies> movieList) {
+        super(context, resource, movieList);
         this.context = context;
         this.resource = resource;
-        this.songList = songList;
+        this.movieList = movieList;
     }
 
     @NonNull
@@ -33,19 +34,38 @@ public class CustomAdapter extends ArrayAdapter<Song> {
             view = inflater.inflate(resource, null);
         }
 
-        Song song = songList.get(position);
+        Movies movie = movieList.get(position);
 
-        TextView songTitle = view.findViewById(R.id.songTitle);
-        TextView songYear = view.findViewById(R.id.songYear);
-        TextView songRating = view.findViewById(R.id.songRating);
-        TextView songSinger = view.findViewById(R.id.songSinger);
+        ImageView movieImage = view.findViewById(R.id.imageView);
+        TextView movieTitle = view.findViewById(R.id.movieTitle);
+        TextView movieYear = view.findViewById(R.id.movieYear);
 
-        songTitle.setText(song.getTitle());
-        songYear.setText("Release Year: " + song.getYear());
-        songRating.setText("Song Rating: " + song.getStars() + " Star/s");
-        songSinger.setText("Singer: " + song.getSingers());
+        TextView movieGenre = view.findViewById(R.id.movieGenre);
+
+        movieImage.setImageResource(getRatingImageResource(movie.getRating()));
+        movieTitle.setText(movie.getTitle());
+        movieYear.setText("Release Year: " + movie.getYear());
+        movieGenre.setText("Genre: " + movie.getGenre());
 
         return view;
     }
-}
 
+    private int getRatingImageResource(int rating) {
+        switch (rating) {
+            case MovieDBHelper.RATING_G:
+                return R.drawable.rating_g;
+            case MovieDBHelper.RATING_PG:
+                return R.drawable.rating_pg;
+            case MovieDBHelper.RATING_PG13:
+                return R.drawable.rating_pg13;
+            case MovieDBHelper.RATING_NC16:
+                return R.drawable.rating_nc16;
+            case MovieDBHelper.RATING_M18:
+                return R.drawable.rating_m18;
+            case MovieDBHelper.RATING_R21:
+                return R.drawable.rating_r21;
+            default:
+                return R.drawable.download; // Replace this with your default rating image
+        }
+    }
+}

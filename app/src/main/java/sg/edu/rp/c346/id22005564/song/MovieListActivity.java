@@ -1,5 +1,7 @@
 package sg.edu.rp.c346.id22005564.song;
 
+
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,52 +15,54 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 
-public class SongListActivity extends AppCompatActivity {
+public class MovieListActivity extends AppCompatActivity {
 
     ListView listView;
     Spinner yearSpinner;
-    Button fiveStarsButton;
-    ArrayAdapter<Song> adapter;
-    DBHelper dbHelper;
+    Button pg13Button;
+    CustomAdapter adapter;
+    MovieDBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_song_list);
+        setContentView(R.layout.activity_movie_list);
 
-        dbHelper = new DBHelper(this);
+        dbHelper = new MovieDBHelper(this);
 
         listView = findViewById(R.id.list);
         yearSpinner = findViewById(R.id.yearSpinner);
-        fiveStarsButton = findViewById(R.id.fiveStarsButton);
+        pg13Button = findViewById(R.id.pg13Button);
 
-        ArrayList<Song> songList = dbHelper.getAllSongs();
-//        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, songList);
-        adapter = new CustomAdapter(this, R.layout.row, songList);
+        ArrayList<Movies> movieList = dbHelper.getAllMovies();
+        adapter = new CustomAdapter(this, R.layout.row, movieList);
 
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Song clickedSong = (Song) parent.getItemAtPosition(position);
-                Intent intent = new Intent(SongListActivity.this, ThirdActivity.class);
-                intent.putExtra("song", clickedSong);
+                Movies clickedMovie = movieList.get(position);
+                int selectedRating = clickedMovie.getRating(); // Get the selected rating from the clicked movie
+                Intent intent = new Intent(MovieListActivity.this, ThirdActivity.class);
+                intent.putExtra("movie", clickedMovie);
+                intent.putExtra("rating", selectedRating); // Pass the selected rating as an extra
                 startActivity(intent);
             }
         });
 
-        fiveStarsButton.setOnClickListener(new View.OnClickListener() {
+
+        pg13Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Song> fiveStarsList = dbHelper.getAllSongsWithFiveStars();
+                ArrayList<Movies> pg13List = dbHelper.getAllMoviesWithRating(MovieDBHelper.RATING_PG13);
                 adapter.clear();
-                adapter.addAll(fiveStarsList);
+                adapter.addAll(pg13List);
                 adapter.notifyDataSetChanged();
             }
         });
 
-        // Populate the Spinner with unique years from the song list
+        // Populate the Spinner with unique years from the movie list
         ArrayList<Integer> uniqueYears = dbHelper.getUniqueYears();
         ArrayAdapter<Integer> yearAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, uniqueYears);
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -68,7 +72,7 @@ public class SongListActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int selectedYear = (int) parent.getItemAtPosition(position);
-                ArrayList<Song> filteredList = dbHelper.getSongsByYear(selectedYear);
+                ArrayList<Movies> filteredList = dbHelper.getMoviesByYear(selectedYear);
                 adapter.clear();
                 adapter.addAll(filteredList);
                 adapter.notifyDataSetChanged();
@@ -80,12 +84,14 @@ public class SongListActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        // Reload the updated song list from the database
-        ArrayList<Song> songList = dbHelper.getAllSongs();
+        // Reload the updated movie list from the database
+        ArrayList<Movies> movieList = dbHelper.getAllMovies();
         adapter.clear();
-        adapter.addAll(songList);
+        adapter.addAll(movieList);
         adapter.notifyDataSetChanged();
     }
 }
