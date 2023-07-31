@@ -52,17 +52,17 @@ public class CustomAdapter extends ArrayAdapter<Movies> {
 
     private int getRatingImageResource(int rating) {
         switch (rating) {
-            case MovieDBHelper.RATING_G:
+            case DBHelper.RATING_G:
                 return R.drawable.rating_g;
-            case MovieDBHelper.RATING_PG:
+            case DBHelper.RATING_PG:
                 return R.drawable.rating_pg;
-            case MovieDBHelper.RATING_PG13:
+            case DBHelper.RATING_PG13:
                 return R.drawable.rating_pg13;
-            case MovieDBHelper.RATING_NC16:
+            case DBHelper.RATING_NC16:
                 return R.drawable.rating_nc16;
-            case MovieDBHelper.RATING_M18:
+            case DBHelper.RATING_M18:
                 return R.drawable.rating_m18;
-            case MovieDBHelper.RATING_R21:
+            case DBHelper.RATING_R21:
                 return R.drawable.rating_r21;
             default:
                 return R.drawable.download; // Replace this with your default rating image

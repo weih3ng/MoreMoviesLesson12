@@ -15,7 +15,7 @@ public class ThirdActivity extends AppCompatActivity {
 
     EditText editTitle, editGenre, editYear, editStars;
     Button updateButton, deleteButton;
-    MovieDBHelper dbHelper;
+    DBHelper dbHelper;
     Movies selectedMovie;
 
     @Override
@@ -23,7 +23,7 @@ public class ThirdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
 
-        dbHelper = new MovieDBHelper(this);
+        dbHelper = new DBHelper(this);
 
         editTitle = findViewById(R.id.editTitle);
         editGenre = findViewById(R.id.editGenre);
@@ -44,8 +44,7 @@ public class ThirdActivity extends AppCompatActivity {
                 this, R.array.movie_ratings, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRating.setAdapter(spinnerAdapter);
-        spinnerRating.setSelection(selectedRating - 1); // Set the correct rating in the spinner
-        // Rest of your code...
+
 
 
         updateButton.setOnClickListener(new View.OnClickListener() {

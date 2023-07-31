@@ -21,14 +21,14 @@ public class MovieListActivity extends AppCompatActivity {
     Spinner yearSpinner;
     Button pg13Button;
     CustomAdapter adapter;
-    MovieDBHelper dbHelper;
+    DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
 
-        dbHelper = new MovieDBHelper(this);
+        dbHelper = new DBHelper(this);
 
         listView = findViewById(R.id.list);
         yearSpinner = findViewById(R.id.yearSpinner);
@@ -55,7 +55,7 @@ public class MovieListActivity extends AppCompatActivity {
         pg13Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Movies> pg13List = dbHelper.getAllMoviesWithRating(MovieDBHelper.RATING_PG13);
+                ArrayList<Movies> pg13List = dbHelper.getAllMoviesWithRating(DBHelper.RATING_PG13);
                 adapter.clear();
                 adapter.addAll(pg13List);
                 adapter.notifyDataSetChanged();

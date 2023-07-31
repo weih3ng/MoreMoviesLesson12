@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-public class MovieDBHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VER = 2;
     private static final String DATABASE_NAME = "movie.db";
     private static final String TABLE_MOVIES = "movie";
@@ -24,7 +24,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
     public static final int RATING_M18 = 5;
     public static final int RATING_R21 = 6;
 
-    public MovieDBHelper(Context context) {
+    public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VER);
     }
 

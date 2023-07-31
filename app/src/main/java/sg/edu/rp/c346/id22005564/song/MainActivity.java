@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     EditText editTitle, editGenre, editYear;
     Spinner spinner;
     Button insertButton, showListButton;
-    MovieDBHelper dbHelper;
+    DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         insertButton = findViewById(R.id.button);
         showListButton = findViewById(R.id.button2);
 
-        dbHelper = new MovieDBHelper(this);
+        dbHelper = new DBHelper(this);
 
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
                 this, R.array.movie_ratings, android.R.layout.simple_spinner_item);
