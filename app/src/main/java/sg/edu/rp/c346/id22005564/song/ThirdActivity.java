@@ -69,14 +69,7 @@ public class ThirdActivity extends AppCompatActivity {
             }
         });
 
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dbHelper.deleteMovie(selectedMovie.getId());
-                Toast.makeText(ThirdActivity.this, "Movie deleted", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
+
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
